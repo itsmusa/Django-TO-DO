@@ -1,0 +1,32 @@
+
+<h1>TODO LIST</h1>
+<hr>
+<form action="/" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="add">
+</form>
+
+<h3>Tasks</h3>
+<ul>
+    {% for task in tasks %}
+    <li>{{ task.details }}</li>
+    <form action="{% url 'task-done' task.id %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="done">
+    </form>
+    {% empty %}
+        <li>No Tasks yet.</li>
+    {% endfor %}
+</ul>
+<hr>
+<ul>
+    {% for task in done %}
+        {% csrf_token %}
+        <li>{{ task.details }}
+    {% endfor %}
+</ul>
+<form action="{% url 'delete-tasks' %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="delete all done">
+</form>
